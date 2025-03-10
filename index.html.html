@@ -71,58 +71,36 @@
             document.getElementById("sliderValue").innerText = value;
         }
         
-       function submitResponse() {
-    let review1 = document.getElementById("review1").value;
-    let review2 = document.getElementById("review2").value;
-    let creativityScore = document.getElementById("creativity").value;
-
-    if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
-        alert("Please complete all fields before submitting.");
-        return;
-    }
-
-    let response = {
-        review1: review1,
-        review2: review2,
-        creativity: creativityScore
-    };
-
-    fetch("https://script.google.com/macros/s/AKfycbz2EcJo2VxDiaD4yNZ-eMZbm6lUjIkkqKk_6BYVWvN_BQ5mnXw4NGxeqDGqBYNnVk1mAw/exec", {  
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(response)
-    })
-    .then(res => res.text())
-    .then(data => {
-        alert("Thank you! Your response has been recorded.");
-        console.log("Server response:", data);
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("There was an issue submitting your response.");
-    });
-}
-
-
-        {
+        function submitResponse() {
             let review1 = document.getElementById("review1").value;
             let review2 = document.getElementById("review2").value;
             let creativityScore = document.getElementById("creativity").value;
-            
+
             if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
                 alert("Please complete all fields before submitting.");
                 return;
             }
-            
+
             let response = {
                 review1: review1,
                 review2: review2,
                 creativity: creativityScore
             };
-            
-            console.log("Response submitted:", response);
-            alert("Thank you for your response!");
-            // Here, you can send data to Google Sheets or a database using Fetch API
+
+            fetch("https://script.google.com/macros/s/AKfycbz2EcJo2VxDiaD4yNZ-eMZbm6lUjIkkqKk_6BYVWvN_BQ5mnXw4NGxeqDGqBYNnVk1mAw/exec", {  
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(response)
+            })
+            .then(res => res.text())
+            .then(data => {
+                alert("Thank you! Your response has been recorded.");
+                console.log("Server response:", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an issue submitting your response.");
+            });
         }
     </script>
 </body>
