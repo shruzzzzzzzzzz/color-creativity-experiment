@@ -27,28 +27,32 @@
 
         // ✅ Submit Response Function (Saves Data to Firestore)
         window.submitResponse = async function () {
-            let review1 = document.getElementById("review1").value;
-            let review2 = document.getElementById("review2").value;
-            let creativityScore = document.getElementById("creativity").value;
+    let review1 = document.getElementById("review1").value;
+    let review2 = document.getElementById("review2").value;
+    let creativityScore = document.getElementById("creativity").value;
 
-            if (!review1 || !review2 || !creativityScore) {
-                alert("Please complete all fields before submitting.");
-                return;
-            }
+    if (!review1 || !review2 || !creativityScore) {
+        alert("Please complete all fields before submitting.");
+        return;
+    }
 
-            try {
-                await addDoc(collection(db, "responses"), {
-                    review1: review1,
-                    review2: review2,
-                    creativity: creativityScore,
-                    timestamp: serverTimestamp()
-                });
-                alert("Thank you! Your response has been recorded.");
-            } catch (error) {
-                console.error("Error submitting:", error);
-                alert("There was an issue submitting your response.");
-            }
-        };
+    console.log("Submitting the following data to Firestore:");
+    console.log({ review1, review2, creativityScore });
+
+    try {
+        let docRef = await addDoc(collection(db, "responses"), {
+            review1: review1,
+            review2: review2,
+            creativity: creativityScore,
+            timestamp: serverTimestamp()
+        });
+        console.log("✅ Firestore document ID:", docRef.id);
+        alert("Thank you! Your response has been recorded.");
+    } catch (error) {
+        console.error("🔥 Error submitting:", error);
+        alert("There was an issue submitting your response.");
+    }
+};
     </script>
 
     <style>
