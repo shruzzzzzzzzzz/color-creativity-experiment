@@ -18,12 +18,12 @@
             height: 150px;
             font-size: 16px;
             padding: 10px;
-            color: black;
         }
         button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
         }
         input[type="range"] {
             width: 50%;
@@ -36,7 +36,7 @@
     <div id="page1">
         <h2>Please review this property</h2>
         <p><a href="https://maps.app.goo.gl/7TtBejMH8sLSmBGH6" target="_blank">Click here to view the property</a></p>
-        <textarea id="review1" placeholder="Type your review here..."></textarea>
+        <textarea id="review1" placeholder="Type your review here..." style="color: black;"></textarea>
         <br>
         <button onclick="nextPage(1)">Next</button>
     </div>
@@ -62,68 +62,57 @@
     </div>
     
     <script>
+        // Function to switch pages
         function nextPage(currentPage) {
-            document.getElementById("page" + currentPage).classList.add("hidden");
-            document.getElementById("page" + (currentPage + 1)).classList.remove("hidden");
+            console.log("Moving from page", currentPage);
+            document.getElementById("page" + currentPage).style.display = "none";  // Hide current page
+            document.getElementById("page" + (currentPage + 1)).style.display = "block";  // Show next page
         }
-        
+
+        // Update the slider text value
         function updateSliderValue(value) {
             document.getElementById("sliderValue").innerText = value;
         }
         
-       function submitResponse() {
-    let review1 = document.getElementById("review1").value;
-    let review2 = document.getElementById("review2").value;
-    let creativityScore = document.getElementById("creativity").value;
-
-    if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
-        alert("Please complete all fields before submitting.");
-        return;
-    }
-
-    let response = {
-        review1: review1,
-        review2: review2,
-        creativity: creativityScore
-    };
-
-    fetch("https://script.google.com/macros/s/AKfycbz2EcJo2VxDiaD4yNZ-eMZbm6lUjIkkqKk_6BYVWvN_BQ5mnXw4NGxeqDGqBYNnVk1mAw/exec", {  
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(response)
-    })
-    .then(res => res.text())
-    .then(data => {
-        alert("Thank you! Your response has been recorded.");
-        console.log("Server response:", data);
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("There was an issue submitting your response.");
-    });
-}
-
-
-        {
+        // Function to submit response
+        function submitResponse() {
             let review1 = document.getElementById("review1").value;
             let review2 = document.getElementById("review2").value;
             let creativityScore = document.getElementById("creativity").value;
-            
+
             if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
                 alert("Please complete all fields before submitting.");
                 return;
             }
-            
+
             let response = {
                 review1: review1,
                 review2: review2,
                 creativity: creativityScore
             };
-            
-            console.log("Response submitted:", response);
-            alert("Thank you for your response!");
-            // Here, you can send data to Google Sheets or a database using Fetch API
+
+            fetch("https://script.google.com/macros/s/AKfycbz2EcJo2VxDiaD4yNZ-eMZbm6lUjIkkqKk_6BYVWvN_BQ5mnXw4NGxeqDGqBYNnVk1mAw/exec", {  
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(response)
+            })
+            .then(res => res.text())
+            .then(data => {
+                alert("Thank you! Your response has been recorded.");
+                console.log("Server response:", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an issue submitting your response.");
+            });
         }
+
+        // Ensure only Page 1 is visible initially
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("page1").style.display = "block";
+            document.getElementById("page2").style.display = "none";
+            document.getElementById("page3").style.display = "none";
+        });
     </script>
 </body>
 </html>
