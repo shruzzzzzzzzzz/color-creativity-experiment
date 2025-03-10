@@ -71,7 +71,7 @@
             document.getElementById("sliderValue").innerText = value;
         }
         
-        function submitResponse() {
+       function submitResponse() {
     let review1 = document.getElementById("review1").value;
     let review2 = document.getElementById("review2").value;
     let creativityScore = document.getElementById("creativity").value;
@@ -87,7 +87,7 @@
         creativity: creativityScore
     };
 
-    fetch(https://script.google.com/macros/s/AKfycbwBH7-tDT3cLtE2Nj7mX85S4uyY4BNba8EbZ7p9vfKzSz_1vEhyGus7sDRqwglM3atH1A/exec, {
+    fetch("https://script.google.com/macros/s/AKfycbz2EcJo2VxDiaD4yNZ-eMZbm6lUjIkkqKk_6BYVWvN_BQ5mnXw4NGxeqDGqBYNnVk1mAw/exec", {  
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(response)
@@ -95,12 +95,14 @@
     .then(res => res.text())
     .then(data => {
         alert("Thank you! Your response has been recorded.");
+        console.log("Server response:", data);
     })
     .catch(error => {
         console.error("Error:", error);
         alert("There was an issue submitting your response.");
     });
 }
+
 
         {
             let review1 = document.getElementById("review1").value;
