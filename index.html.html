@@ -16,7 +16,7 @@
             apiKey: "AIzaSyDGaMsPpnvH_Ms6Yv03hoARNRgUg6M9iYs",
             authDomain: "survey-30f13.firebaseapp.com",
             projectId: "survey-30f13",
-            storageBucket: "survey-30f13.firebasestorage.app",
+            storageBucket: "survey-30f13.appspot.com",
             messagingSenderId: "785774889098",
             appId: "1:785774889098:web:d46f9eb67efa77e78c0573"
         };
@@ -27,32 +27,34 @@
 
         // ✅ Submit Response Function (Saves Data to Firestore)
         window.submitResponse = async function () {
-    let review1 = document.getElementById("review1").value;
-    let review2 = document.getElementById("review2").value;
-    let creativityScore = document.getElementById("creativity").value;
+            console.log("🔥 Submit button clicked!"); // Debugging
 
-    if (!review1 || !review2 || !creativityScore) {
-        alert("Please complete all fields before submitting.");
-        return;
-    }
+            let review1 = document.getElementById("review1").value;
+            let review2 = document.getElementById("review2").value;
+            let creativityScore = document.getElementById("creativity").value;
 
-    console.log("Submitting the following data to Firestore:");
-    console.log({ review1, review2, creativityScore });
+            if (!review1 || !review2 || !creativityScore) {
+                alert("Please complete all fields before submitting.");
+                return;
+            }
 
-    try {
-        let docRef = await addDoc(collection(db, "responses"), {
-            review1: review1,
-            review2: review2,
-            creativity: creativityScore,
-            timestamp: serverTimestamp()
-        });
-        console.log("✅ Firestore document ID:", docRef.id);
-        alert("Thank you! Your response has been recorded.");
-    } catch (error) {
-        console.error("🔥 Error submitting:", error);
-        alert("There was an issue submitting your response.");
-    }
-};
+            console.log("🔥 Submitting the following data to Firestore:");
+            console.log({ review1, review2, creativityScore });
+
+            try {
+                let docRef = await addDoc(collection(db, "responses"), {
+                    review1: review1,
+                    review2: review2,
+                    creativity: creativityScore,
+                    timestamp: serverTimestamp()
+                });
+                console.log("✅ Firestore document ID:", docRef.id);
+                alert("Thank you! Your response has been recorded.");
+            } catch (error) {
+                console.error("🔥 Firestore submission error:", error);
+                alert("There was an issue submitting your response.");
+            }
+        };
     </script>
 
     <style>
@@ -115,7 +117,7 @@
     <script>
         // Function to switch pages
         function nextPage(currentPage) {
-            console.log("Moving from page", currentPage);
+            console.log("🔥 Moving from page", currentPage);
             document.getElementById("page" + currentPage).style.display = "none";  // Hide current page
             document.getElementById("page" + (currentPage + 1)).style.display = "block";  // Show next page
         }
@@ -127,6 +129,7 @@
         
         // Ensure only Page 1 is visible initially
         document.addEventListener("DOMContentLoaded", function () {
+            console.log("🔥 Firebase script is running!");
             document.getElementById("page1").style.display = "block";
             document.getElementById("page2").style.display = "none";
             document.getElementById("page3").style.display = "none";
