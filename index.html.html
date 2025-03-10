@@ -74,38 +74,38 @@
             document.getElementById("sliderValue").innerText = value;
         }
         
-        // Function to submit response
         function submitResponse() {
-            let review1 = document.getElementById("review1").value;
-            let review2 = document.getElementById("review2").value;
-            let creativityScore = document.getElementById("creativity").value;
+    let review1 = document.getElementById("review1").value;
+    let review2 = document.getElementById("review2").value;
+    let creativityScore = document.getElementById("creativity").value;
 
-            if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
-                alert("Please complete all fields before submitting.");
-                return;
-            }
+    if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
+        alert("Please complete all fields before submitting.");
+        return;
+    }
 
-            let response = {
-                review1: review1,
-                review2: review2,
-                creativity: creativityScore
-            };
+    let response = {
+        review1: review1,
+        review2: review2,
+        creativity: creativityScore
+    };
 
-            fetch("https://script.google.com/macros/s/AKfycbyjPm4sFv_4gvPRnwSYmCrUZmw9PqQfe6h4jWJfkfz8Jsfi7jIsBH7jfxpSRuHAr5nGag/exec", {  
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(response)
-            })
-            .then(res => res.text())
-            .then(data => {
-                alert("Thank you! Your response has been recorded.");
-                console.log("Server response:", data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("There was an issue submitting your response.");
-            });
-        }
+    console.log("Sending data to Google Apps Script:", response);
+
+    fetch("https://script.google.com/macros/s/AKfycbyk6oKUSvzwQTZfIPTZRVRC9_jLWIdbXu4jK85Meuzb865yvRhXYU9DvIm6cFZPi5g8oA/exec", {  
+        method: "POST",
+        mode: "no-cors", // 🔥 CORS Workaround
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(response)
+    })
+    .then(() => {
+        alert("Thank you! Your response has been recorded.");
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
+        alert("There was an issue submitting your response.");
+    });
+}
 
         // Ensure only Page 1 is visible initially
         document.addEventListener("DOMContentLoaded", function () {
