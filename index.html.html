@@ -72,6 +72,37 @@
         }
         
         function submitResponse() {
+    let review1 = document.getElementById("review1").value;
+    let review2 = document.getElementById("review2").value;
+    let creativityScore = document.getElementById("creativity").value;
+
+    if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
+        alert("Please complete all fields before submitting.");
+        return;
+    }
+
+    let response = {
+        review1: review1,
+        review2: review2,
+        creativity: creativityScore
+    };
+
+    fetch(https://script.google.com/macros/s/AKfycbwBH7-tDT3cLtE2Nj7mX85S4uyY4BNba8EbZ7p9vfKzSz_1vEhyGus7sDRqwglM3atH1A/exec, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(response)
+    })
+    .then(res => res.text())
+    .then(data => {
+        alert("Thank you! Your response has been recorded.");
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("There was an issue submitting your response.");
+    });
+}
+
+        {
             let review1 = document.getElementById("review1").value;
             let review2 = document.getElementById("review2").value;
             let creativityScore = document.getElementById("creativity").value;
