@@ -4,6 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creativity Review Experiment</title>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        // 🔥 Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGaMsPpnvH_Ms6Yv03hoARNRgUg6M9iYs",
+            authDomain: "survey-30f13.firebaseapp.com",
+            projectId: "survey-30f13",
+            storageBucket: "survey-30f13.firebasestorage.app",
+            messagingSenderId: "785774889098",
+            appId: "1:785774889098:web:d46f9eb67efa77e78c0573"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ✅ Submit Response Function (Saves Data to Firestore)
+        window.submitResponse = async function () {
+            let review1 = document.getElementById("review1").value;
+            let review2 = document.getElementById("review2").value;
+            let creativityScore = document.getElementById("creativity").value;
+
+            if (!review1 || !review2 || !creativityScore) {
+                alert("Please complete all fields before submitting.");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "responses"), {
+                    review1: review1,
+                    review2: review2,
+                    creativity: creativityScore,
+                    timestamp: serverTimestamp()
+                });
+                alert("Thank you! Your response has been recorded.");
+            } catch (error) {
+                console.error("Error submitting:", error);
+                alert("There was an issue submitting your response.");
+            }
+        };
+    </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,39 +121,6 @@
             document.getElementById("sliderValue").innerText = value;
         }
         
-        function submitResponse() {
-    let review1 = document.getElementById("review1").value;
-    let review2 = document.getElementById("review2").value;
-    let creativityScore = document.getElementById("creativity").value;
-
-    if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
-        alert("Please complete all fields before submitting.");
-        return;
-    }
-
-    let response = {
-        review1: review1,
-        review2: review2,
-        creativity: creativityScore
-    };
-
-    console.log("Sending data to Google Apps Script:", response);
-
-    fetch("https://script.google.com/macros/s/AKfycbyk6oKUSvzwQTZfIPTZRVRC9_jLWIdbXu4jK85Meuzb865yvRhXYU9DvIm6cFZPi5g8oA/exec", {  
-        method: "POST",
-        mode: "no-cors", // 🔥 CORS Workaround
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(response)
-    })
-    .then(() => {
-        alert("Thank you! Your response has been recorded.");
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-        alert("There was an issue submitting your response.");
-    });
-}
-
         // Ensure only Page 1 is visible initially
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("page1").style.display = "block";
